@@ -31,7 +31,7 @@ export default createMultiReducer({
   timestamp: createMetaReducer('status', createDynamicReducer({
     initial: null,
     [REQUEST]: [action => action.ref, null],
-    [SUCCESS]: [action => action.ref, action => action.timestamp]
+    [SUCCESS]: [action => action.ref, (_, action) => action.timestamp]
   })),
   error: createMetaReducer('status', createDynamicReducer({
     initial: null,
