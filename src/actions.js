@@ -17,7 +17,7 @@ export const success = (ref, payload, meta) => createStatusAction(payload, meta,
 export const failure = (ref, payload, meta) => createStatusAction(payload, meta, ref, FAILURE);
 export const cancel = (ref, payload, meta) => createStatusAction(payload, meta, ref, CANCEL);
 
-export const trackApi = (ref, promise) => (dispatch, getState) => new Promise(res => {
+export const trackApi = (ref, promise) => dispatch => new Promise(res => {
   dispatch(begin(ref));
 
   promise
