@@ -1,6 +1,6 @@
 {
   "name": "alexs-redux-status",
-  "version": "0.0.2",
+  "version": "0.0.6",
   "main": "webpack.config.js",
   "scripts": {
     "build:main": "webpack",
@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "description": "",
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -32,6 +32,6 @@
     "redux": "^3.6.0"
   },
   "dependencies": {
-    "alexs-redux-helpers": "^1.0.7"
+    "alexs-redux-helpers": "^1.0.17"
   }
 }

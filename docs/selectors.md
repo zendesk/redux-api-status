@@ -7,7 +7,6 @@
   - [getIsPending(state, ref) -> Bool](#getispendingstate-ref---bool)
   - [getHasLoaded(state, ref) -> Bool](#gethasloadedstate-ref---bool)
   - [getHasFailed(state, ref) -> Bool](#gethasfailedstate-ref---bool)
-  - [getIsSlow(state, ref) -> Bool](#getisslowstate-ref---bool)
   - [getFailedAttempts(state, ref) -> Int](#getfailedattemptsstate-ref---int)
   - [getTimestamp(state, ref) -> timestamp](#gettimestampstate-ref---timestamp)
   - [getErrorMessage(state, ref) -> Any (Whatever you set as the error message)](#geterrormessagestate-ref---any-whatever-you-set-as-the-error-message)
@@ -27,9 +26,6 @@ Returns true if the ref has a status of LOADED
 
 ## getHasFailed(state, ref) -> Bool
 Returns true if the ref has a status of FAILED
-
-## getIsSlow(state, ref) -> Bool
-Returns whether or not a ref is currently listed as slow.
 
 ## getFailedAttempts(state, ref) -> Int
 Returns the amount of failed attempts for the given ref

@@ -31,8 +31,7 @@ export const fetchTodo = id => trackApi(
 
 This thunk action will perform the following steps:
 1. Dispatch `begin`
-2. Dispatch thunk `connectionStats`
-3.  If promise is rejected, dispatches failure with the error's message
+2.  If promise is rejected, dispatches failure with the error's message
     
     OR
     
@@ -107,8 +106,6 @@ The provided trackApi thunk is pretty basic
 export const trackApi = (ref, promise) => (dispatch, getState) => new Promise(res => {
   dispatch(begin(ref));
 
-  dispatch(connectionStats(ref, promise));
-
   promise
     .then(response => {
       dispatch(success(ref, response));
@@ -125,7 +122,7 @@ export const trackApi = (ref, promise) => (dispatch, getState) => new Promise(re
 
 However, if you aren't using redux thunk, or if you want to implement your own logic, please feel free to build your own!
 
-Maybe you don't care about connection stats and instead of rejecting a promise you resolve with an 'error' and 'response' attribute.
+Maybe instead of rejecting a promise you resolve with an 'error' and 'response' attribute.
 
 That's fine, just build up your own.
 
@@ -147,15 +144,15 @@ export const trackApi = (ref, promise) => async (dispatch, getState) => {
 ## Listening in to fetch actions in your own reducers
 Sometimes you may want to have your own reducers react to the status actions being created via this library.
 
-All of the status actions that are dispatched are of the format `${ref}_${type}`.
+All of the status actions that are dispatched are of the format `${ref}/${type}`.
 
-This means that when a begin action is dispatched, the type of that action is `${ref}_REQUEST`.
+This means that when a begin action is dispatched, the type of that action is `${ref}/REQUEST`.
 
 If for example, our ref was 'FETCH_ALL_THE_THINGS', the following action types that can be dispatched are:
-- FETCH_ALL_THE_THINGS_REQUEST
-- FETCH_ALL_THE_THINGS_SUCCESS
-- FETCH_ALL_THE_THINGS_FAILURE
-- FETCH_ALL_THE_THINGS_CANCEL
+- FETCH_ALL_THE_THINGS/REQUEST
+- FETCH_ALL_THE_THINGS/SUCCESS
+- FETCH_ALL_THE_THINGS/FAILURE
+- FETCH_ALL_THE_THINGS/CANCEL
 
 However, with any library this may change in the future, so instead of hard coding the strings yourself, functions are provided by this library to create the action type.
 

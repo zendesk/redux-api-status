@@ -43,9 +43,9 @@ ajv@^4.7.0, ajv@^4.9.1:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
 
-alexs-redux-helpers@^1.0.7:
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/alexs-redux-helpers/-/alexs-redux-helpers-1.0.15.tgz#e544bac2836ffa0d3fa2d8ed8edeff4139eb24b7"
+alexs-redux-helpers@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/alexs-redux-helpers/-/alexs-redux-helpers-1.0.17.tgz#b2f2acb505549f56919f007e7acf112bf9c8d580"
 
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"

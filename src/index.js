@@ -1,7 +1,7 @@
 import nestSelectors from 'alexs-redux-helpers/selectors/nest-selectors';
 
 import reducer, { selectors } from './reducer';
-import { connectionStats, trackApi } from './actions';
+import { trackApi } from './actions';
 import { STATUS_ACTION_TYPES } from './constants';
 import {
   requestType,
@@ -23,7 +23,6 @@ export {
   successType,
   failureType,
   cancelType,
-  connectionStats,
   trackApi,
   createSelectors
 }

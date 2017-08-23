@@ -11,40 +11,29 @@ import {
   REQUEST,
   SUCCESS,
   FAILURE,
-  CANCEL,
-  SLOW_CONNECTION,
+  CANCEL
 } from './constants';
 
 export default createMultiReducer({
-  status: createMetaReducer('fetch', createDynamicReducer({
+  status: createMetaReducer('status', createDynamicReducer({
     initial: NOT_LOADED,
     [REQUEST]: [action => action.ref, PENDING],
     [SUCCESS]: [action => action.ref, LOADED],
     [FAILURE]: [action => action.ref, FAILED],
     [CANCEL]: [action => action.ref, null]
   })),
-  failedCount: createMetaReducer('fetch', createDynamicReducer({
+  failedCount: createMetaReducer('status', createDynamicReducer({
     initial: 0,
     [SUCCESS]: [action => action.ref, 0],
     [FAILURE]: [action => action.ref, state => state + 1],
     [CANCEL]: [action => action.ref, 0]
   })),
-  timestamp: createMetaReducer('fetch', createDynamicReducer({
+  timestamp: createMetaReducer('status', createDynamicReducer({
     initial: null,
     [REQUEST]: [action => action.ref, null],
-    [SUCCESS]: [action => action.ref, () => Date.now()]
+    [SUCCESS]: [action => action.ref, action => action.timestamp]
   })),
-  slow: createDynamicReducer({
-    initial: null,
-    [SLOW_CONNECTION]: [action => action.payload.ref, true],
-    default: createMetaReducer('fetch', (state, action) => {
-      return {
-        ...state,
-        [action.ref]: null
-      }
-    })
-  }),
-  error: createMetaReducer('fetch', createDynamicReducer({
+  error: createMetaReducer('status', createDynamicReducer({
     initial: null,
     [REQUEST]: [action => action.ref, null],
     [SUCCESS]: [action => action.ref, null],
@@ -61,19 +50,10 @@ const getIsPending = ({ status }, ref) => Boolean(status[ref] && status[ref] ===
 const getHasFailed = (state, ref) => getStatus(state, ref) === FAILED
 const getHasLoaded = (state, ref) => state.status[ref] === LOADED;
 
-const getIsSlow = (state, ref) => {
-  if (!getIsPending(state, ref)) {
-    return false;
-  }
-
-  return !!state.slow[ref];
-}
-
 export const selectors = {
   getIsPending,
   getHasFailed,
   getStatus,
-  getIsSlow,
   getErrorMessage,
   getTimestamp,
   getHasLoaded

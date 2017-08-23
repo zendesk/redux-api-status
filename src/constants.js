@@ -4,9 +4,6 @@ export const PENDING = 'PENDING'
 export const LOADED = 'LOADED'
 export const FAILED = 'FAILED'
 
-/* Actions */
-export const SLOW_CONNECTION = 'SLOW_CONNECTION'
-
 /* Status action types */
 export const REQUEST = 'REQUEST';
 export const SUCCESS = 'SUCCESS';
