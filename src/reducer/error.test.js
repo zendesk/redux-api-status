@@ -1,6 +1,6 @@
 import reducer, { errorSelectors } from './error';
 import {
-  REQUEST,
+  BEGIN,
   SUCCESS,
   FAILURE,
   CANCEL
@@ -32,7 +32,7 @@ describe('reducer | error', () => {
       expectedState: null
     });
 
-    expectNull(REQUEST, begin);
+    expectNull(BEGIN, begin);
     expectNull(SUCCESS, success);
     expectNull(CANCEL, cancel);
     testStatusAction({

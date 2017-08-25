@@ -3,13 +3,13 @@ import {
   createMetaReducer
 } from 'alexs-redux-helpers/reducers'
 import {
-  REQUEST,
+  BEGIN,
   SUCCESS,
 } from './../constants';
 
 const reducer = createMetaReducer('status', createDynamicReducer({
   initial: null,
-  [REQUEST]: [action => action.ref, null],
+  [BEGIN]: [action => action.ref, null],
   [SUCCESS]: [action => action.ref, (_, action) => action.timestamp]
 }));
 

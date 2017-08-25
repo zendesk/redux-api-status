@@ -5,13 +5,13 @@ export const LOADED = 'LOADED'
 export const FAILED = 'FAILED'
 
 /* Status action types */
-export const REQUEST = 'REQUEST';
+export const BEGIN = 'BEGIN';
 export const SUCCESS = 'SUCCESS';
 export const FAILURE = 'FAILURE';
 export const CANCEL = 'CANCEL';
 
 export const STATUS_ACTION_TYPES = {
-  REQUEST,
+  BEGIN,
   SUCCESS,
   FAILURE,
   CANCEL

@@ -3,7 +3,7 @@ import {
   createMetaReducer
 } from 'alexs-redux-helpers/reducers'
 import {
-  REQUEST,
+  BEGIN,
   SUCCESS,
   FAILURE,
   CANCEL
@@ -11,7 +11,7 @@ import {
 
 const reducer = createMetaReducer('status', createDynamicReducer({
   initial: null,
-  [REQUEST]: [action => action.ref, null],
+  [BEGIN]: [action => action.ref, null],
   [SUCCESS]: [action => action.ref, null],
   [CANCEL]: [action => action.ref, null],
   [FAILURE]: [action => action.ref, (_, __, action) => action.payload.error],

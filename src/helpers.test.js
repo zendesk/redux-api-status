@@ -1,12 +1,12 @@
-import { requestType, successType, failureType, cancelType } from './helpers';
-import { REQUEST, SUCCESS, FAILURE, CANCEL } from './constants';
+import { beginType, successType, failureType, cancelType } from './helpers';
+import { BEGIN, SUCCESS, FAILURE, CANCEL } from './constants';
 
 describe('helpers', () => {
 
-  describe('requestType', () => {
-    it('returns ref + REQUEST action type', () => {
-      expect(requestType('something'))
-        .toBe(`something/${REQUEST}`)
+  describe('beginType', () => {
+    it('returns ref + BEGIN action type', () => {
+      expect(beginType('something'))
+        .toBe(`something/${BEGIN}`)
     })
   })
 

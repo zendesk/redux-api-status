@@ -17,7 +17,7 @@
 ## Action Types (ref => string)
 To generate action types you can import and use the following functions 
 
-- requestType
+- beginType
 - successType
 - failureType
 - cancelType

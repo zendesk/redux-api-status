@@ -146,10 +146,10 @@ Sometimes you may want to have your own reducers react to the status actions bei
 
 All of the status actions that are dispatched are of the format `${ref}/${type}`.
 
-This means that when a begin action is dispatched, the type of that action is `${ref}/REQUEST`.
+This means that when a begin action is dispatched, the type of that action is `${ref}/BEGIN`.
 
 If for example, our ref was 'FETCH_ALL_THE_THINGS', the following action types that can be dispatched are:
-- FETCH_ALL_THE_THINGS/REQUEST
+- FETCH_ALL_THE_THINGS/BEGIN
 - FETCH_ALL_THE_THINGS/SUCCESS
 - FETCH_ALL_THE_THINGS/FAILURE
 - FETCH_ALL_THE_THINGS/CANCEL
@@ -157,10 +157,10 @@ If for example, our ref was 'FETCH_ALL_THE_THINGS', the following action types t
 However, with any library this may change in the future, so instead of hard coding the strings yourself, functions are provided by this library to create the action type.
 
 These functions are:
- - successType
- - pendingType
- - failedType
- - cancelType 
+- beginType
+- successType
+- failureType
+- cancelType
  
 Each take the ref as a parameter and return the action type.
 

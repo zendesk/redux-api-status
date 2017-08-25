@@ -1,6 +1,6 @@
 import action from 'alexs-redux-helpers/actions'
 import {
-  REQUEST,
+  BEGIN,
   SUCCESS,
   FAILURE,
   CANCEL
@@ -12,7 +12,7 @@ const createStatusAction = (payload = {}, meta = {}, ref, status) => action(
   { ...meta, status: { ref, type: status, timestamp: Date.now() } }
 );
 
-export const begin = (ref, payload, meta) => createStatusAction(payload, meta, ref, REQUEST);
+export const begin = (ref, payload, meta) => createStatusAction(payload, meta, ref, BEGIN);
 export const success = (ref, payload, meta) => createStatusAction(payload, meta, ref, SUCCESS);
 export const failure = (ref, payload, meta) => createStatusAction(payload, meta, ref, FAILURE);
 export const cancel = (ref, payload, meta) => createStatusAction(payload, meta, ref, CANCEL);

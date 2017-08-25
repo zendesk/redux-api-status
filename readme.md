@@ -17,7 +17,7 @@ All that is required to use this library is redux
 - redux
 
 **Optional**
-- redux-thunk Although you can use the raw actions, the `fetchAction` thunk is provided
+- redux-thunk Although you can use the raw actions, the `trackApi` thunk is provided
 
 ### 2. Install the library
 ```sh
@@ -38,7 +38,7 @@ export default combineReducers({
 ```
 
 ### 4. Using the fetch actions
-If you are using redux thunk, the [fetchAction](docs/fetch-api.md#fetchactionref-promise-optimistic-thunk) is a quick way to get started.
+If you are using redux thunk, the [trackApi](docs/fetch-api.md#fetchactionref-promise-optimistic-thunk) is a quick way to get started.
 
 This action will handle dispatching all of the necessary functions for you to keep track of your api's status, including pending, success, failed and whether or not he connection is taking a while.
  
@@ -48,7 +48,7 @@ The way the fetch feature keeps track of your individual api calls is via a uniq
 It is recommended that you create ref generator functions to easily produce these refs.
 
 ```js
-import { fetchAction, fetchRequest, fetchSuccess, fetchFailure } from 'redux-api-status/actions';
+import { trackApi, begin, success, failure } from 'redux-api-status/actions';
 
 const fetchTodoApi = id => api(`/todos/${id}`)
 const fetchTodoRef = id => `/TODO/${id}/GET`;
@@ -63,14 +63,14 @@ const removeTodoApi = id => api
 
 const removeTodoRef = id => `/TODO/${id}/REMOVE`;
 
-/* Using fetchAction thunk */
+/* Using trackApi thunk */
 
-export const fetchTodo = id => fetchAction(
+export const fetchTodo = id => trackApi(
   fetchTodoRef(id),
   fetchTodoApi(id)
 );
 
-export const saveTodo = (id, fields) => fetchAction(
+export const saveTodo = (id, fields) => trackApi(
   saveTodoRef(id),
   saveTodoApi(id, fields)
 );
@@ -80,16 +80,16 @@ export const saveTodo = (id, fields) => fetchAction(
 export const removeTodo = id => async dispatch => {
   const ref = removeTodoRef(id);
   
-  dispatch(fetchRequest(ref))
+  dispatch(begin(ref))
   
   const { response, error } = await removeTodoApi(id);
   
   if (error) {
-    dispatch(fetchFailure(ref, { error }))
+    dispatch(failure(ref, { error }))
     return;
   }
   
-  dispatch(fetchSuccess(ref, response))
+  dispatch(success(ref, response))
 }
 ```
 

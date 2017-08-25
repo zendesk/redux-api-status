@@ -3,7 +3,7 @@ import {
   PENDING,
   LOADED,
   FAILED,
-  REQUEST,
+  BEGIN,
   SUCCESS,
   FAILURE,
   CANCEL
@@ -35,7 +35,7 @@ describe('reducer | status', () => {
       expectedState
     });
 
-    expectState(REQUEST, begin, PENDING);
+    expectState(BEGIN, begin, PENDING);
     expectState(SUCCESS, success, LOADED);
     expectState(FAILURE, failure, FAILED);
     expectState(CANCEL, cancel, null);

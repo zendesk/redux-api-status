@@ -1,6 +1,6 @@
 import reducer, { timestampSelectors } from './timestamp';
 import {
-  REQUEST,
+  BEGIN,
   SUCCESS
 } from './../constants';
 import { begin, success, failure, cancel } from './../actions';
@@ -25,7 +25,7 @@ describe('reducer | timestamp', () => {
 
     testStatusAction({
       description: 'sets the ref to null',
-      actionType: REQUEST,
+      actionType: BEGIN,
       action: begin,
       expectedState: null,
       reducer

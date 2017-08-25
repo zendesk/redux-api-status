@@ -7,7 +7,7 @@ import {
   PENDING,
   LOADED,
   FAILED,
-  REQUEST,
+  BEGIN,
   SUCCESS,
   FAILURE,
   CANCEL
@@ -15,7 +15,7 @@ import {
 
 const reducer = createMetaReducer('status', createDynamicReducer({
   initial: NOT_LOADED,
-  [REQUEST]: [action => action.ref, PENDING],
+  [BEGIN]: [action => action.ref, PENDING],
   [SUCCESS]: [action => action.ref, LOADED],
   [FAILURE]: [action => action.ref, FAILED],
   [CANCEL]: [action => action.ref, null]

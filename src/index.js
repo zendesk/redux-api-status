@@ -4,7 +4,7 @@ import reducer, { selectors } from './reducer';
 import { trackApi } from './actions';
 import { STATUS_ACTION_TYPES } from './constants';
 import {
-  requestType,
+  beginType,
   successType,
   failureType,
   cancelType
@@ -19,7 +19,7 @@ export {
   reducer,
   selectors,
   STATUS_ACTION_TYPES,
-  requestType,
+  beginType,
   successType,
   failureType,
   cancelType,

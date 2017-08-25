@@ -1,12 +1,12 @@
 import { begin, success, failure, cancel, trackApi } from './actions';
-import { REQUEST, SUCCESS, FAILURE, CANCEL } from './constants';
+import { BEGIN, SUCCESS, FAILURE, CANCEL } from './constants';
 
 Date.now = jest.genMockFunction().mockReturnValue(1337);
 
 describe('actions', () => {
 
   const syncActions = {
-    begin: { action: begin, type: REQUEST },
+    begin: { action: begin, type: BEGIN },
     success: { action: success, type: SUCCESS },
     failure: { action: failure, type: FAILURE },
     cancel: { action: cancel, type: CANCEL }
