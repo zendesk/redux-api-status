@@ -38,7 +38,6 @@ To generate action types you can import and use the following functions
 ## cancel(ref, payload = {}, meta = {})
   - status for the given ref will be set to null
   - resets failed count back to 0    
-  - cancels any optimistic updates for the given ref
 
 ## trackApi(ref, promise) [thunk]
 This action handles the whole life cycle of an api request.
@@ -49,4 +48,4 @@ The steps this actions takes looks like
     
     OR
     
-    If promise resolves, dispatches success
+    If promise resolves, dispatches success with the response as the payload

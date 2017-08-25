@@ -42,7 +42,7 @@ If you are using redux thunk, the [trackApi](docs/fetch-api.md#fetchactionref-pr
 
 This action will handle dispatching all of the necessary functions for you to keep track of your api's status, including pending, success, failed and whether or not he connection is taking a while.
  
-However, if you would prefer to handle all of this yourself [(which is totally fine)](docs/examples.md#making-api-calls-your-own-way) there are non-thunk actions provided as well.
+However, if you would prefer to handle all of this yourself [(which is completely fine)](docs/examples.md#making-api-calls-your-own-way) there are non-thunk actions provided as well.
 
 The way the fetch feature keeps track of your individual api calls is via a unique ref.
 It is recommended that you create ref generator functions to easily produce these refs.
