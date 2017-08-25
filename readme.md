@@ -21,7 +21,7 @@ All that is required to use this library is redux
 
 ### 2. Install the library
 ```sh
-npm install alexs-redux-status
+npm install redux-api-status
 ```
 
 ### 3. Add the reducer to your root reducer
@@ -29,7 +29,7 @@ Import `createStatusReducer` from the library and add it into your root reducer.
 
 ```js
 // your root reducer
-import createStatusReducer from 'alexs-redux-status';
+import createStatusReducer from 'redux-api-status';
 
 export default combineReducers({
   ..., // your other reducers,
@@ -48,7 +48,7 @@ The way the fetch feature keeps track of your individual api calls is via a uniq
 It is recommended that you create ref generator functions to easily produce these refs.
 
 ```js
-import { fetchAction, fetchRequest, fetchSuccess, fetchFailure } from 'alexs-redux-status/actions';
+import { fetchAction, fetchRequest, fetchSuccess, fetchFailure } from 'redux-api-status/actions';
 
 const fetchTodoApi = id => api(`/todos/${id}`)
 const fetchTodoRef = id => `/TODO/${id}/GET`;
@@ -98,7 +98,7 @@ To generate the selectors use `createSelectors`, which takes one argument to get
 
 ```js
 // wherever-you-keep-selectors.js
-import { createStatusSelectors } from 'alexs-redux-status';
+import { createStatusSelectors } from 'redux-api-status';
 
 export const fetchSelectors = createStatusSelectors(state => state.status);
 ```

@@ -1,6 +1,6 @@
 {
-  "name": "alexs-redux-status",
-  "version": "0.0.9",
+  "name": "redux-api-status",
+  "version": "0.0.1",
   "main": "webpack.config.js",
   "scripts": {
     "build:main": "webpack",

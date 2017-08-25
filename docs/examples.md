@@ -21,7 +21,7 @@ This function takes in three parameters
 Using it will look something like this
 
 ```js
-import { trackApi } from 'alexs-redux-status';
+import { trackApi } from 'redux-api-status';
 
 export const fetchTodo = id => trackApi(
   `TODO/${id}/GET`,
@@ -167,7 +167,7 @@ Each take the ref as a parameter and return the action type.
 An example of using this:
 
 ```js
-import { successType } from 'alexs-redux-status';
+import { successType } from 'redux-api-status';
 
 const isLoggedIn = (state = false, action) => {
   switch(action.type) {
