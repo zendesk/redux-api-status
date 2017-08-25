@@ -38,7 +38,7 @@ export default combineReducers({
 ```
 
 ### 4. Using the fetch actions
-If you are using redux thunk, the [trackApi](docs/fetch-api.md#fetchactionref-promise-optimistic-thunk) is a quick way to get started.
+If you are using redux thunk, the [trackApi](docs/actions.md#trackapiref-promise-thunk) is a quick way to get started.
 
 This action will handle dispatching all of the necessary functions for you to keep track of your api's status, including pending, success, failed and whether or not he connection is taking a while.
  
