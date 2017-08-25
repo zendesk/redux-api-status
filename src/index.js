@@ -10,7 +10,7 @@ import {
   cancelType
 } from './helpers';
 
-const createSelectors = (getState = state => state) => nestSelectors(selectors, getState);
+const createStatusSelectors = (getState = state => state) => nestSelectors(selectors, getState);
 const createReducer = () => reducer;
 
 export default createReducer;
@@ -24,7 +24,7 @@ export {
   failureType,
   cancelType,
   trackApi,
-  createSelectors
+  createStatusSelectors
 }
 
 
