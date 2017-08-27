@@ -94,7 +94,7 @@ export const removeTodo = id => async dispatch => {
 ```
 
 ### 6. Set up your selectors
-To generate the selectors use `createSelectors`, which takes one argument to get the state.   
+To generate the selectors use `createStatusSelectors`, which takes one argument to get the part of the state you are storing this library in.   
 
 ```js
 // wherever-you-keep-selectors.js
