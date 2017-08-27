@@ -24,7 +24,6 @@ To generate action types you can import and use the following functions
 
 ## begin(ref, payload = {}, meta = {})
   - status for the given ref will be set to PENDING
-  - timestamp for the given ref will be set to null
     
 ## success(ref, payload = {}, meta = {})
   - status for the given ref will be set to LOADED

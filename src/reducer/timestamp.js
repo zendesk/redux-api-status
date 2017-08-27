@@ -9,7 +9,6 @@ import {
 
 const reducer = createMetaReducer('status', createDynamicReducer({
   initial: null,
-  [BEGIN]: [action => action.ref, null],
   [SUCCESS]: [action => action.ref, (_, action) => action.timestamp]
 }));
 
