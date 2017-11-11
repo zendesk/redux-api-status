@@ -103,7 +103,22 @@ export default connect(
 The provided trackApi thunk is pretty basic
 
 ```js
-export const trackApi = (ref, promise) => (dispatch, getState) => new Promise(res => {
+export const trackApi = (ref, promise, options = {}) => (dispatch, getState) => new Promise(res => {
+  const getStatus = options.getStatus || ((state = {}) => state.status)
+
+  const state = getStatus(getState())
+
+  if (selectors.getIsPending(state, ref)) {
+    res({})
+    return
+  }
+
+  const cacheTime = options.cacheTime || 30000 // 30 seconds
+  if (options.cacheTime !== false && Date.now() - selectors.getTimestamp(state, ref) < cacheTime) {
+    res({})
+    return
+  }
+
   dispatch(begin(ref));
 
   promise
