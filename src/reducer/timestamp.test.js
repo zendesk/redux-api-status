@@ -1,9 +1,8 @@
 import reducer, { timestampSelectors } from './timestamp';
 import {
-  BEGIN,
   SUCCESS
 } from './../constants';
-import { begin, success, failure, cancel } from './../actions';
+import { success } from './../actions';
 import { testStatusAction } from "./test-helpers";
 
 Date.now = jest.genMockFunction().mockReturnValue(1337);
@@ -24,14 +23,6 @@ describe('reducer | timestamp', () => {
     })
 
     testStatusAction({
-      description: 'sets the ref to null',
-      actionType: BEGIN,
-      action: begin,
-      expectedState: null,
-      reducer
-    });
-
-    testStatusAction({
       description: 'sets the ref to the timestamp',
       actionType: SUCCESS,
       action: success,
@@ -48,5 +39,4 @@ describe('reducer | timestamp', () => {
       })
     })
   })
-
 })

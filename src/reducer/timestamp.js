@@ -3,7 +3,6 @@ import {
   createMetaReducer
 } from 'alexs-redux-helpers/reducers'
 import {
-  BEGIN,
   SUCCESS,
 } from './../constants';
 
