@@ -1,3 +1,4 @@
+import { selectors } from './reducer'
 import { begin, success, failure, cancel, trackApi } from './actions';
 import { BEGIN, SUCCESS, FAILURE, CANCEL } from './constants';
 
@@ -36,13 +37,61 @@ describe('actions', () => {
   });
 
   describe('trackApi', () => {
-    describe('always', () => {
-      let dispatch;
-      let result;
+    const dispatch = jest.fn()
+    const getState = jest.fn()
+    const mockApi = new Promise(res => res())
+    let result
 
+    beforeEach(() => {
+      selectors.getIsPending = jest.fn()
+      selectors.getTimestamp = jest.fn()
+      dispatch.mockClear()
+    })
+
+    afterEach(() => {
+      selectors.getIsPending.mockReset()
+      selectors.getTimestamp.mockReset()
+    })
+
+    describe('limit api calls', () => {
       beforeEach(() => {
-        dispatch = jest.fn();
-        result = trackApi('some ref', new Promise(res => res()))(dispatch);
+        selectors.getIsPending.mockReturnValue(true)
+        selectors.getTimestamp.mockReturnValue(2000)
+        Date.now = jest.fn().mockReturnValue(4000)
+
+        result = trackApi('some ref', new Promise(res => res()))(dispatch, getState)
+      })
+
+      afterEach(() => {
+        selectors.getIsPending.mockClear()
+        selectors.getTimestamp.mockClear()
+        Date.now.mockClear()
+      })
+
+      it('resolves the promise with empty object when ref is stored for less than default (30s) time', () => {
+        const subject = trackApi('some ref', mockApi)(dispatch, getState)
+
+        return expect(subject)
+          .resolves.toEqual({})
+      })
+
+      it('resolves the promise with empty object when ref is stored for less than specified (30s) time', () => {
+        return expect(trackApi('some ref', mockApi, { cacheTime: 1000 })(dispatch, getState))
+          .resolves.toEqual({})
+      })
+    })
+
+
+    describe('when not pending or cached', () => {
+      beforeEach(() => {
+        selectors.getIsPending.mockReturnValue(false)
+        result = trackApi('some ref', mockApi, { cacheTime: 0 })(dispatch, getState);
+      })
+
+      afterEach(() => {
+        selectors.getIsPending.mockClear()
+        selectors.getTimestamp.mockClear()
+        Date.now.mockClear()
       })
 
       it('dispatches a begin action', () => {
@@ -52,12 +101,10 @@ describe('actions', () => {
     })
 
     describe('when promise is successful', () => {
-      let dispatch;
-      let result;
-
       beforeEach(async () => {
-        dispatch = jest.fn();
-        result = await trackApi('some ref', new Promise(res => res({ some: 'result' })))(dispatch);
+        selectors.getIsPending.mockReturnValue(false)
+
+        result = await trackApi('some ref', new Promise(res => res({ some: 'result' })))(dispatch, getState);
       })
 
       it('dispatches a success action', async () => {
@@ -76,12 +123,8 @@ describe('actions', () => {
     })
 
     describe('when promise fails', () => {
-      let dispatch;
-      let result;
-
       beforeEach(async () => {
-        dispatch = jest.fn();
-        result = await trackApi('some ref', new Promise((_, rej) => rej(new Error('some error'))))(dispatch);
+        result = await trackApi('some ref', new Promise((_, rej) => rej(new Error('some error'))))(dispatch, getState);
       })
 
       it('dispatches a failure action', async () => {
