@@ -47,11 +47,11 @@ This action handles the whole life cycle of an api request.
 This function also handles checking if the given ref is already pending, or has recently been called and will bail out if so.
 
 The steps this actions takes looks like
-1. Check if ref is currently pending, bail out if it is
-2. Check if ref has is within the specified cache time, bail out if it is
+1. Check if ref is currently pending, trackApi will resolve with `{ rejected: true }`
+2. Check if ref has is within the specified cache time, trackApi will resolve with `{ rejected: true }`
 3. Dispatch begin
-4.  If promise is rejected, dispatches failure with the error's message
+4.  If promise is rejected, dispatches failure with the error's message, trackApi will resolve with the error's message `{ error: error.message }`
     
     OR
     
-    If promise resolves, dispatches success with the response as the payload
+    If promise resolves, dispatches success with the response as the payload, trackApi will resolve with the response `{ response: response }`
