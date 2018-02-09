@@ -24,13 +24,15 @@ export const trackApi = (ref, promise, options = {}) => (dispatch, getState) => 
   const state = getStatus(getState())
 
   if (selectors.getIsPending(state, ref)) {
-    res({})
+    promise.catch(() => undefined)
+    res({ rejected: true })
     return
   }
 
   const cacheTime = options.cacheTime || 30000 // 30 seconds
   if (options.cacheTime !== false && Date.now() - selectors.getTimestamp(state, ref) < cacheTime) {
-    res({})
+    promise.catch(() => undefined)
+    res({ rejected: true })
     return
   }
 
