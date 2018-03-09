@@ -17,7 +17,7 @@ All that is required to use this library is redux
 - redux
 
 **Optional**
-- redux-thunk Although you can use the raw actions, the `trackApi` thunk is provided
+- redux-thunk Although you can use the raw actions, the `trackStatus` thunk is provided
 
 ### 2. Install the library
 ```sh
@@ -38,17 +38,16 @@ export default combineReducers({
 ```
 
 ### 4. Using the fetch actions
-If you are using redux thunk, the [trackApi](docs/actions.md#trackapiref-promise-thunk) is a quick way to get started.
+If you are using redux thunk, the [trackStatus](docs/actions.md#trackstatusref-getpromise-options---thunk) is a quick way to get started.
 
 This action will handle dispatching all of the necessary functions for you to keep track of your api's status, including pending, success and failed.
  
 However, if you would prefer to handle all of this yourself [(which is completely fine)](docs/examples.md#making-api-calls-your-own-way) there are non-thunk actions provided as well.
 
 The way the library keeps track of your individual api calls is via a unique string.
-It is recommended that you either use a constant or create functions to easily create these strings.
 
 ```js
-import { trackApi, begin, success, failure } from 'redux-api-status/actions';
+import { trackStatus, begin, success, failure } from 'redux-api-status/actions';
 
 const fetchTodoApi = id => api(`/todos/${id}`)
 const fetchTodoRef = id => `/TODO/${id}/GET`;
@@ -63,16 +62,14 @@ const removeTodoApi = id => api
 
 const removeTodoRef = id => `/TODO/${id}/REMOVE`;
 
-/* Using trackApi thunk */
-
-export const fetchTodo = id => trackApi(
-  fetchTodoRef(id),
-  fetchTodoApi(id)
+export const fetchTodo = trackStatus(
+  removeTodoRef,
+  fetchTodoApi
 );
 
-export const saveTodo = (id, fields) => trackApi(
-  saveTodoRef(id),
-  saveTodoApi(id, fields)
+export const saveTodo = trackStatus(
+  saveTodoRef,
+  saveTodoApi
 );
 
 /* Rolling your own */

@@ -11,33 +11,36 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Making api calls
-Getting started tracking API calls with this library is rather easy with the built in `trackApi` thunk action.
+Getting started tracking API calls with this library is rather easy with the built in `trackStatus` thunk action.
 
 This function takes in three parameters
 
  - **Ref** The unique key for this api call
  - **Promise** Some promise (usually your api call)
-  
+ - **Config** Provides options for things like cahcing
+
 Using it will look something like this
 
 ```js
-import { trackApi } from 'redux-api-status';
+import { trackStatus } from 'redux-api-status';
 
-export const fetchTodo = id => trackApi(
-  `TODO/${id}/GET`,
-  fetch(`/todo/${id}`).then(res => res.json())
+export const fetchTodo = trackStatus(
+  id => `TODO/${id}/GET`,
+  id => fetch(`/todo/${id}`).then(res => res.json())
 )
 ```
 
 This thunk action will perform the following steps:
-1. Dispatch `begin`
-2.  If promise is rejected, dispatches failure with the error's message
-    
-    OR
-    
-    If promise resolves, dispatches success
+1. Check if ref is currently pending, trackStatus will resolve with `{ rejected: true }`
+2. Check if ref has is within the specified cache time, trackStatus will resolve with `{ rejected: true }`
+3. Dispatch begin
+4. If promise is rejected, dispatches failure with the error's message, trackStatus will resolve with the error's message `{ error: error.message }`
 
-Keeping it simple, lets consider if we just wanted to keep track of the status of a todo api call.
+   OR
+
+   If promise resolves, dispatches success with the response as the payload, trackStatus will resolve with the response `{ response: response }`
+
+Now, lets consider if we wanted to display the status of this api call in a component.
 
 When we call our `fetchTodo` action creator it will first dispatch the `begin` action. This will put the ref `TODO/${id}/GET` into a `PENDING` state.
  
@@ -47,6 +50,7 @@ We can use the selector `getIsPending` to check this.
 import React from 'react';
 import { connect } from 'react-redux';
 import { statusSelectors, todoSelectors } from './selectors';
+import { fetchTodo } from './actions'
 
 const Todo = ({isPending, todo}) => {
   if (isPending) {
@@ -59,7 +63,7 @@ const Todo = ({isPending, todo}) => {
 export default connect(
   (state, ownProps) => ({
     todo: state.todos[ownProps.todoId],
-    isPending: statusSelectors.getIsPending(state, `TODO/${ownProps.todoId}/GET`)
+    isPending: statusSelectors.getIsPending(state, fetchTodo.getKey(ownProps.todoId))
   })
 )(Todo);
 ```
@@ -75,6 +79,7 @@ We can use a few other selectors to now display an error state as well.
 import React from 'react';
 import { connect } from 'react-redux';
 import { statusSelectors, todoSelectors } from './selectors';
+import { fetchTodo } from './actions'
 
 const Todo = ({isPending, hasFailed, error, todo}) => {
   if (isPending) {
@@ -92,57 +97,22 @@ const Todo = ({isPending, hasFailed, error, todo}) => {
 export default connect(
   (state, ownProps) => ({
     todo: state.todos[ownProps.todoId],
-    isPending: statusSelectors.getIsPending(state, `TODO/${ownProps.todoId}/GET`),
-    hasFailed: statusSelectors.getHasFailed(state, `TODO/${ownProps.todoId}/GET`),
-    error: statusSelectors.getErrorMessage(state, `TODO/${ownProps.todoId}/GET`)
+    isPending: statusSelectors.getIsPending(state, fetchTodo.getKey(ownProps.todoId)),
+    hasFailed: statusSelectors.getHasFailed(state, fetchTodo.getKey(ownProps.todoId)),
+    error: statusSelectors.getErrorMessage(state, fetchTodo.getKey(ownProps.todoId))
   })
 )(Todo);
 ```
 
 ## Making api calls your own way
-The provided trackApi thunk is pretty basic
+The provided trackStatus thunk is pretty basic, so if you aren't using redux thunk, or if you want to implement your own logic, please feel free to build your own!
 
-```js
-export const trackApi = (ref, promise, options = {}) => (dispatch, getState) => new Promise(res => {
-  const getStatus = options.getStatus || ((state = {}) => state.status)
-
-  const state = getStatus(getState())
-
-  if (selectors.getIsPending(state, ref)) {
-    res({})
-    return
-  }
-
-  const cacheTime = options.cacheTime || 30000 // 30 seconds
-  if (options.cacheTime !== false && Date.now() - selectors.getTimestamp(state, ref) < cacheTime) {
-    res({})
-    return
-  }
-
-  dispatch(begin(ref));
-
-  promise
-    .then(response => {
-      dispatch(success(ref, response));
-
-      res({ response });
-    })
-    .catch(err => {
-      const error = err.message;
-      dispatch(failure(ref, { error }));
-      res({ error });
-    })
-});
-```
-
-However, if you aren't using redux thunk, or if you want to implement your own logic, please feel free to build your own!
-
-Maybe instead of rejecting a promise you resolve with an 'error' and 'response' attribute.
+Maybe instead of rejecting a promise, you want to resolve with an 'error' and 'response' attribute.
 
 That's fine, just build up your own.
 
 ```js
-export const trackApi = (ref, promise) => async (dispatch, getState) => {
+export const trackStatus = (ref, promise) => async (dispatch, getState) => {
   dispatch(begin(ref));
   
   const { response, error } = await promise;
