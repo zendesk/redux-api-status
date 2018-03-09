@@ -9,9 +9,10 @@ describe('actions', () => {
     failure: { action: failure, type: FAILURE },
     cancel: { action: cancel, type: CANCEL }
   };
+  const expectedActionTime = 1337
 
   beforeEach(() => {
-    Date.now = jest.genMockFunction().mockReturnValue(1337);
+    Date.now = jest.genMockFunction().mockReturnValue(expectedActionTime);
   })
 
   afterEach(() => {
@@ -34,7 +35,7 @@ describe('actions', () => {
             payload,
             meta: {
               some: 'meta',
-              status: { ref, type, timestamp: Date.now() }
+              status: { ref, type, timestamp: expectedActionTime }
             }
           })
       })
