@@ -17,7 +17,7 @@ This function takes in three parameters
 
  - **Ref** The unique key for this api call
  - **Promise** Some promise (usually your api call)
- - **Config** Provides options for things like cahcing
+ - **Config** Provides options for things like caching
 
 Using it will look something like this
 
