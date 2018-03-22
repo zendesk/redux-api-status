@@ -31,7 +31,6 @@
     "webpack-cli": "^2.0.11"
   },
   "peerDependencies": {
-    "lodash": "^4.17.4",
     "redux": "^3.6.0"
   },
   "dependencies": {
