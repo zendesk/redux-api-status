@@ -44,42 +44,32 @@ This action will handle dispatching all of the necessary functions for you to ke
  
 However, if you would prefer to handle all of this yourself [(which is completely fine)](docs/examples.md#making-api-calls-your-own-way) there are non-thunk actions provided as well.
 
-The way the library keeps track of your individual api calls is via a unique string.
+The way the library keeps track of your individual api calls is via a unique string. This unique string is used in actions to specify what request it is for, and selectors to check the status of that request.
+
+Here is an example of making a request to fetch a todo item
 
 ```js
 import { trackStatus, begin, success, failure } from 'redux-api-status/actions';
 
-const fetchTodoApi = id => api(`/todos/${id}`)
-const fetchTodoRef = id => `/TODO/${id}/GET`;
+const fetchTodoApi = id => api.get(`/todos/${id}`)
 
-const saveTodoApi = (id, fields) => api.post(`/todos/${id}`, fields)
-const saveTodoRef = id => `/TODO/${id}/SAVE`;
-
-const removeTodoApi = id => api
-  .delete(`/todos/${id}`)
-  .then(response => ({ response }))
-  .then(err => ({ error: err.message }))
-
-const removeTodoRef = id => `/TODO/${id}/REMOVE`;
-
+// Here it is using the trackStatus thunk action
 export const fetchTodo = trackStatus(
-  removeTodoRef,
-  fetchTodoApi
+  // first argument is the unique string to represent the request
+  // it can be a function for dynamic strings based on arguments, or a just a constant string
+  id => `TODO/FETCH/${id}`,
+  
+  // second argument is a function that returns the promise to track
+  id => fetchTodoApi(id)
 );
 
-export const saveTodo = trackStatus(
-  saveTodoRef,
-  saveTodoApi
-);
-
-/* Rolling your own */
-
-export const removeTodo = id => async dispatch => {
-  const ref = removeTodoRef(id);
+// Here is an example using the raw actions
+export const fetchTodo = id => async dispatch => {
+  const ref = `TODO/FETCH/${id}`;
   
   dispatch(begin(ref))
   
-  const { response, error } = await removeTodoApi(id);
+  const { response, error } = await fetchTodoApi(id);
   
   if (error) {
     dispatch(failure(ref, { error }))
@@ -97,5 +87,28 @@ To generate the selectors use `createStatusSelectors`, which takes one argument 
 // wherever-you-keep-selectors.js
 import { createStatusSelectors } from 'redux-api-status';
 
-export const fetchSelectors = createStatusSelectors(state => state.status);
+export const statusSelectors = createStatusSelectors(state => state.status);
 ```
+
+Using the todo example from above, we can query its state like this
+
+```js
+dispatch(fetchTodo('1337'))
+
+// While its pending
+statusSelectors.getIsPending(state, `TODO/FETCH/1337`) // true
+statusSelectors.getHasLoaded(state, `TODO/FETCH/1337`) // false
+
+// Once its successful
+statusSelectors.getIsPending(state, `TODO/FETCH/1337`) // false
+statusSelectors.getHasLoaded(state, `TODO/FETCH/1337`) // true
+statusSelectors.getTimestamp(state, `TODO/FETCH/1337`) // Timestamp of last successful request
+
+// If it fails
+statusSelectors.getIsPending(state, `TODO/FETCH/1337`) // false
+statusSelectors.getHasLoaded(state, `TODO/FETCH/1337`) // false
+statusSelectors.getHasFailed(state, `TODO/FETCH/1337`) // true
+statusSelectors.getErrorMessage(state, `TODO/FETCH/1337`) // Some error message
+statusSelectors.getTimestamp(state, `TODO/FETCH/1337`) // null
+```
+
