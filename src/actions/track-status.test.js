@@ -23,6 +23,21 @@ describe('trackStatus', () => {
       expect(typeof result === 'function')
     })
 
+    describe('when function returns another function', () => {
+      it('it is called as a thunk', async () => {
+        const dispatch = jest.fn()
+        const getState = jest.fn()
+        const arg = jest.fn()
+
+        const action = trackStatus('something', arg => async (dispatch, getState) => ({arg, dispatch, getState}))
+
+        const result = await action(arg)(dispatch, getState)
+
+        expect(result)
+          .toEqual({response: {arg, dispatch, getState}})
+      })
+    })
+
     describe('when pending', () => {
       let result
 

@@ -23,7 +23,10 @@ const trackStatus = (getKey, getPromise, options = {}) => {
 
     dispatch(begin(key))
 
-    getPromise(...args)
+    const maybePromise = getPromise(...args)
+    const promise = typeof maybePromise === 'function' ? maybePromise(dispatch, getState) : maybePromise
+
+    promise
       .then(response => {
         dispatch(success(key, response))
 

@@ -74,6 +74,20 @@ import { connect } from 'react-redux'
 connect((state, props) => ({
   isPending: statusSelectors.getIsPending(state, fetchCat.getKey(props.catId))
 })
-
 ```
 
+`trackStatus`'s `getPromise` arugment can also return another function that will act kinda like a thunk.
+
+*Example*
+```js
+const fetchCat = trackStatus(
+  id => `CAT/FETCH/${id}`,
+  id => async (dispatch, getState) => {
+    if (selectors.getShouldOnlyFetchDogs(getState())) {
+      throw new Error('Only allowed to fetch dogs') 
+    }
+    
+    return api.getCat(id)
+  }
+)
+```
