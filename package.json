@@ -19,6 +19,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
+    "babel-jest": "^22.4.1",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -31,11 +32,9 @@
     "webpack-cli": "^2.0.11"
   },
   "peerDependencies": {
-    "redux": "^3.6.0"
+    "redux": "^4.0.0"
   },
   "dependencies": {
-    "alexs-redux-helpers": "^1.0.18",
-    "babel-jest": "^22.4.1",
-    "redux": "^3.7.2"
+    "alexs-redux-helpers": "^2.0.0"
   }
 }
